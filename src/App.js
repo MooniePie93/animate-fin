@@ -1,25 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import Plot from 'react-plotly.js';
 
-function App() {
+
+const count =30; 
+
+const startingNumbers =Array(count)
+.fill(1)
+.map((_, i) => i);
+
+export default function App() {
+  const [data, setData] = React.useState({
+    x: startingNumbers,
+    y: startingNumbers
+  });
+  React.useEffect(() =>{
+    const interval = setInterval(() =>{
+      setData((prev) => {
+        return{
+          x:prev.x,
+          y:[...prev.y.slice(1),Math.floor(Math.random() * count)]
+        };
+      });
+    }, 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className= "App">
+       <Plot
+       data={[data]}
+       layout={{
+         title: "FinTech Graph Real-Time",
+         xaxis: { range: [-5, count] },
+         yaxis: { range: [-5, count] }
+       }}
+       />
     </div>
   );
-}
-
-export default App;
+     
+  
+      }
