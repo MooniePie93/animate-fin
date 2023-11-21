@@ -1,6 +1,6 @@
 import React from 'react';
 import Plot from 'react-plotly.js';
-
+import { useState, useEffect } from 'react';
 
 const count =30; 
 
@@ -8,13 +8,13 @@ const startingNumbers =Array(count)
 .fill(1)
 .map((_, i) => i);
 
-export default function App() {
-  const [data, setData] = React.useState({
+function App() {
+  const [data, setData] = useState({
     x: startingNumbers,
     y: startingNumbers
   });
   
-  React.useEffect(() =>{
+  useEffect(() =>{
     const interval = setInterval(() =>{
       setData((prev) => {
         return{
@@ -22,11 +22,13 @@ export default function App() {
           y:[...prev.y.slice(1),Math.floor(Math.random() * count)]
         };
       });
-    }, 1000);
+    }, 5000);
+    console.log()
     return () => {
       clearInterval(interval);
     };
   }, []);
+
   const standardDeviation = (arr, usePopulation = false) => {
     const mean = arr.reduce((acc, val) => acc + val, 0) / arr.length;
     return Math.sqrt(
@@ -37,13 +39,15 @@ export default function App() {
   
   console.log('STDEV.S =>',
     standardDeviation([
-      10, 2, 38, 23, 38, 23, 21
+      //10, 2, 38, 23, 38, 23, 21
+      
     ])
   );
   
   console.log('STDEV.P =>',
     standardDeviation([
-      10, 2, 38, 23, 38, 23, 21
+      //10, 2, 38, 23, 38, 23, 21
+    
     ], true)
   );
   return (
@@ -61,3 +65,4 @@ export default function App() {
 
   
       }
+export default App;
