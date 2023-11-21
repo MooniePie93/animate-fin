@@ -13,6 +13,7 @@ export default function App() {
     x: startingNumbers,
     y: startingNumbers
   });
+  
   React.useEffect(() =>{
     const interval = setInterval(() =>{
       setData((prev) => {
@@ -26,7 +27,25 @@ export default function App() {
       clearInterval(interval);
     };
   }, []);
-
+  const standardDeviation = (arr, usePopulation = false) => {
+    const mean = arr.reduce((acc, val) => acc + val, 0) / arr.length;
+    return Math.sqrt(
+      arr.reduce((acc, val) => acc.concat((val - mean) ** 2), []).reduce((acc, val) => acc + val, 0) /
+        (arr.length - (usePopulation ? 0 : 1))
+    );
+  };
+  
+  console.log('STDEV.S =>',
+    standardDeviation([
+      10, 2, 38, 23, 38, 23, 21
+    ])
+  );
+  
+  console.log('STDEV.P =>',
+    standardDeviation([
+      10, 2, 38, 23, 38, 23, 21
+    ], true)
+  );
   return (
     <div className= "App">
        <Plot
@@ -39,6 +58,6 @@ export default function App() {
        />
     </div>
   );
-     
+
   
       }
